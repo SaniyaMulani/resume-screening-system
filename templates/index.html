@@ -1,0 +1,229 @@
+<!-- templates/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>AI Resume Screening System</title>
+
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+    <div class="main-container">
+
+        <!-- LEFT SIDE -->
+
+        <div class="left-panel">
+
+            <h1>AI Resume Screening System</h1>
+
+            <p>
+                Smart ATS Resume Analyzer using
+                Artificial Intelligence,
+                NLP and Machine Learning.
+            </p>
+
+            <div class="feature-card">
+
+                <h3>AI Resume Analysis</h3>
+
+                <p>
+                    Automatically analyzes candidate resumes
+                    and compares with job description.
+                </p>
+
+            </div>
+
+            <div class="feature-card">
+
+                <h3>ATS Match Score</h3>
+
+                <p>
+                    Calculates candidate compatibility
+                    using TF-IDF and cosine similarity.
+                </p>
+
+            </div>
+
+            <div class="feature-card">
+
+                <h3>Skill Detection</h3>
+
+                <p>
+                    Detects technical and soft skills
+                    from uploaded resumes.
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT SIDE -->
+
+        <div class="right-panel">
+
+            <div class="glass-card">
+
+                <h2>Upload Resume</h2>
+
+                <form action="/analyze"
+                    method="POST"
+                    enctype="multipart/form-data">
+
+                    <div class="upload-box">
+
+                        <input type="file"
+                            name="resume"
+                            required>
+
+                        <p>
+                            Drag & Drop Resume PDF Here
+                        </p>
+
+                    </div>
+
+                    <textarea
+                        name="jd"
+                        rows="7"
+                        placeholder="Paste Job Description Here..."
+                        required></textarea>
+
+                    <button type="submit">
+                        Analyze Resume
+                    </button>
+
+                </form>
+
+                {% if error %}
+
+                <div class="error-box">
+
+                    {{ error }}
+
+                </div>
+
+                {% endif %}
+
+                {% if score %}
+
+                <div class="result-container">
+
+                    <h2>Detailed Screening Report</h2>
+
+                    <div class="result-card">
+
+                        <span>Uploaded Resume</span>
+
+                        <p>{{ filename }}</p>
+
+                    </div>
+
+                    <div class="result-card">
+
+                        <span>Email</span>
+
+                        <p>{{ email }}</p>
+
+                    </div>
+
+                    <div class="result-card">
+
+                        <span>Phone</span>
+
+                        <p>{{ phone }}</p>
+
+                    </div>
+
+                    <div class="result-card">
+
+                        <span>Detected Skills</span>
+
+                        <p>
+                            {{ skills | join(', ') }}
+                        </p>
+
+                    </div>
+
+                    <div class="result-card">
+
+                        <span>Matched Skills</span>
+
+                        <p>
+                            {{ matched_skills | join(', ') }}
+                        </p>
+
+                    </div>
+
+                    <div class="result-card">
+
+                        <span>Missing Skills</span>
+
+                        <p>
+                            {{ missing_skills | join(', ') }}
+                        </p>
+
+                    </div>
+
+                    <div class="result-card">
+
+                        <span>Candidate Strength</span>
+
+                        <p>{{ strength }}</p>
+
+                    </div>
+
+                    <div class="score-card">
+
+                        <h3>ATS Match Score</h3>
+
+                        <div class="circle">
+
+                            {{ score }}%
+
+                        </div>
+
+                        <h3>{{ result }}</h3>
+
+                        <p>{{ recommendation }}</p>
+
+                    </div>
+
+                    <div class="suggestion-box">
+
+                        <h3>Improvement Suggestions</h3>
+
+                        <ul>
+
+                            {% for suggestion in suggestions %}
+
+                            <li>{{ suggestion }}</li>
+
+                            {% endfor %}
+
+                        </ul>
+
+                    </div>
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
